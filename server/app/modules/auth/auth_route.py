@@ -1,6 +1,6 @@
 # routes/auth_route.py
 import re
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -20,6 +20,25 @@ from app.modules.users import user_crud
 
 
 router = APIRouter(prefix="/auth", tags=["Authorization"])
+
+
+@router.get("/check-identifier")
+async def check_identifier(
+    email: str = Query(None, description="Email to check"),
+    phone_number: str = Query(None, description="Phone number to check"),
+    db: AsyncSession = Depends(get_db),
+):
+    if not email and not phone_number:
+        raise HTTPException(status_code=400, detail="Must provide email or phone_number")
+
+    result = {}
+    if email:
+        user = await user_crud.get_user_by_email(db, email)
+        result["email_exists"] = user is not None
+    if phone_number:
+        user = await user_crud.get_user_by_phone_number(db, phone_number)
+        result["phone_number_exists"] = user is not None
+    return result
 
 
 @router.post("/register", response_model=CreateOut, status_code=status.HTTP_201_CREATED)
