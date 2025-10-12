@@ -10,10 +10,18 @@ from contextlib import asynccontextmanager
 from app.api import api_router
 from app.configs.app_config import app_config
 from app.database.session import engine
+from app.middleware.request_id import RequestIdMiddleware
+from app.middleware.logging_middleware import LoggingMiddleware
+from app.utils.logger import setup_logging, get_logger
 
+# Setup structured logging
+setup_logging(
+    log_level="DEBUG" if app_config.ENVIRONMENT == "development" else "INFO",
+    json_logs=app_config.ENVIRONMENT == "production",
+    log_file="logs/app.log" if app_config.ENVIRONMENT == "production" else None,
+)
 
-logger = logging.getLogger(__name__)
-# logging.basicConfig(level=logging.INFO)
+logger = get_logger(__name__)
 
 
 def custom_generate_unique_id(route: APIRoute) -> str:
@@ -46,6 +54,13 @@ app = FastAPI(
     redoc_url=None,
     openapi_url="/openapi.json" if app_config.ENVIRONMENT != "production" else None,
 )
+
+# Add middleware (order matters - first added is executed last)
+# Request ID middleware - first to set context
+app.add_middleware(RequestIdMiddleware)
+
+# Logging middleware - logs requests with request ID
+app.add_middleware(LoggingMiddleware)
 
 if app_config.all_cors_origins:
     app.add_middleware(

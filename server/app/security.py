@@ -1,5 +1,5 @@
 # security.py
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from passlib.context import CryptContext
@@ -95,4 +95,12 @@ async def get_current_user_with_access_token(
 
     if user is None:
         raise credentials_exception
+    
+    # Set user ID in context for logging (lazy import to avoid circular dependency)
+    try:
+        from app.middleware.request_id import set_user_id
+        set_user_id(str(user.id))
+    except ImportError:
+        pass  # Logging context not available yet
+    
     return user
