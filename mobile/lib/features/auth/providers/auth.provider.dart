@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hourz/features/auth/models/auth.model.dart';
 import 'package:hourz/features/auth/services/auth.service.dart';
 import 'package:hourz/shared/index.dart';
+import 'package:hourz/shared/models/api.model.dart';
 import 'package:logger/logger.dart';
 
 // ============================================================================
@@ -267,7 +268,12 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
           setEmailError(null);
         }
       } catch (e) {
-        setEmailError('ไม่สามารถตรวจสอบอีเมลได้');
+        // Check for error code 400 (bad request)
+        if (e is ApiException && e.statusCode == 400) {
+          setEmailError('รูปแบบอีเมลไม่ถูกต้อง');
+        } else {
+          setEmailError('ไม่สามารถตรวจสอบอีเมลได้');
+        }
         _logger.e('❌ Check identifier failed: $e');
         return false;
       }
