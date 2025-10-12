@@ -1,5 +1,5 @@
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from sqlalchemy import Column
@@ -58,8 +58,8 @@ class User(Base):
     reputation_score = Column(Float, default=5.0)
     total_reviews = Column(Integer, default=0)
 
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     address_id = Column(String, ForeignKey("address.id"), unique=True, nullable=False)
 
@@ -108,8 +108,8 @@ class Address(Base):
     postal_code = Column(String, nullable=True)
     country = Column(String, default="Thailand")
     location = Column(Geometry("POINT", srid=4326), nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     user = relationship("User", back_populates="address", uselist=False)
 
