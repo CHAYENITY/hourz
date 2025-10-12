@@ -17,6 +17,7 @@ from app.security import (
 
 from app.modules.users.user_schema import UserCreate
 from app.modules.users import user_crud
+from app.modules.users.user_validation import validate_email, validate_phone_number
 
 
 router = APIRouter(prefix="/auth", tags=["Authorization"])
@@ -30,6 +31,14 @@ async def check_identifier(
 ):
     if not email and not phone_number:
         raise HTTPException(status_code=400, detail="Must provide email or phone_number")
+
+    try:
+        if email:
+            email = validate_email(email)
+        if phone_number:
+            phone_number = validate_phone_number(phone_number)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
     result = {}
     if email:

@@ -3,7 +3,10 @@ from typing import Optional
 
 
 def validate_email(email: str) -> str:
-    return email.strip().lower()
+    email = email.strip().lower()
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        raise ValueError("Invalid email format")
+    return email
 
 
 def validate_phone_number(v: str) -> str:
