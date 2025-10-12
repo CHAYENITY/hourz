@@ -4,7 +4,7 @@ Transaction CRUD operations for Mock Payment System
 
 from typing import List, Optional, Tuple
 from uuid import UUID, uuid4
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select, func, and_, or_, col
 
@@ -123,12 +123,12 @@ class TransactionCRUD:
         
         # Update transaction status
         transaction.status = TransactionStatus.COMPLETED
-        transaction.completed_at = datetime.utcnow()
+        transaction.completed_at = datetime.now(timezone.utc)
         
         # Update gig status to completed if not already
         if gig.status != GigStatus.COMPLETED:
             gig.status = GigStatus.COMPLETED
-            gig.completed_at = datetime.utcnow()
+            gig.completed_at = datetime.now(timezone.utc)
         
         await session.commit()
         await session.refresh(transaction)
@@ -341,7 +341,7 @@ class TransactionCRUD:
         transaction.status = new_status
         
         if new_status == TransactionStatus.COMPLETED:
-            transaction.completed_at = datetime.utcnow()
+            transaction.completed_at = datetime.now(timezone.utc)
         
         await session.commit()
         await session.refresh(transaction)

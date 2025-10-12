@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select, desc, and_
 from typing import List, Optional, Dict, Any, Tuple
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime, timezone
 from app.models import ChatRoom, Message, ChatParticipant, User, Gig
 from app.schemas.chat_schema import MessageCreate, ChatRoomCreate
 
@@ -224,7 +224,7 @@ class ChatCRUD:
         room_result = await db.execute(select(ChatRoom).where(ChatRoom.id == chat_room_id))
         chat_room = room_result.scalar_one_or_none()
         if chat_room:
-            chat_room.updated_at = datetime.now()
+            chat_room.updated_at = datetime.now(timezone.utc)
 
         await db.commit()
         await db.refresh(message)
@@ -357,7 +357,7 @@ class ChatCRUD:
         result = await db.execute(stmt)
         participant = result.scalar_one_or_none()
         if participant:
-            participant.last_read_at = datetime.now()
+            participant.last_read_at = datetime.now(timezone.utc)
             await db.commit()
             return True
 
