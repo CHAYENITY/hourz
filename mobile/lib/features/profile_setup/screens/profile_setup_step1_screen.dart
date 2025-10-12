@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hourz/shared/constants/app_routes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hourz/shared/providers/index.dart';
-import 'package:hourz/shared/widgets/custom_status_bar.dart';
+import 'package:hourz/shared/index.dart';
 import '../providers/profile_setup_provider.dart';
 import '../widgets/profile_setup_progress.dart';
 import '../widgets/profile_setup_step1/profile_setup_step1_form.dart';
@@ -127,7 +125,7 @@ class _ProfileSetupStep1ScreenState
                     children: [
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: null,
+                          onPressed: (isLoading) ? null : () => context.pop(),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),

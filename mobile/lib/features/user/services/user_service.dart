@@ -1,4 +1,4 @@
-import 'package:hourz/shared/providers/index.dart';
+import 'package:hourz/shared/index.dart';
 
 import '../models/user.dart';
 

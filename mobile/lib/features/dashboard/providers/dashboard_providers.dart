@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hourz/shared/providers/index.dart';
+import 'package:hourz/shared/index.dart';
 import '../models/index.dart';
 import '../services/dashboard_service.dart';
 

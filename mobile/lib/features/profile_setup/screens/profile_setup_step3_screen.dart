@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hourz/shared/constants/app_routes.dart';
-import 'package:hourz/shared/providers/index.dart';
-import 'package:hourz/shared/widgets/custom_status_bar.dart';
+import 'package:hourz/shared/index.dart';
 import '../providers/profile_setup_provider.dart';
 import '../widgets/profile_setup_progress.dart';
 import '../widgets/profile_setup_step3/index.dart';
@@ -34,7 +32,7 @@ class _ProfileSetupStep3ScreenState
     });
   }
 
-  Future<void> _handleSubmit() async {
+  Future<void> handleSubmit() async {
     if (!_hasUploadedImage) {
       ref
           .read(errorProvider.notifier)
@@ -64,7 +62,7 @@ class _ProfileSetupStep3ScreenState
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.go('/home'); // Navigate to home or appropriate screen
+                  context.go(AppRoutePath.login);
                 },
                 child: const Text('ตกลง'),
               ),

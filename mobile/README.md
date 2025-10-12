@@ -34,7 +34,7 @@ open ios/Runner.xcworkspace
 
 ```bash
 xcrun simctl list devices
-xcrun simctl boot "iPhone 16"
+xcrun simctl boot "iPhone 17"
 ```
 
 ```bash

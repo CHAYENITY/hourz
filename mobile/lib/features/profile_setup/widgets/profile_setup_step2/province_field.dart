@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hourz/shared/index.dart';
 import '../../providers/profile_setup_provider.dart';
-import '../../../../shared/providers/index.dart';
 
 class ProvinceField extends ConsumerStatefulWidget {
   const ProvinceField({super.key});
@@ -15,7 +15,10 @@ class _ProvinceFieldState extends ConsumerState<ProvinceField> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(profileSetupProvider);
+    // ✅ Use .select() for better performance
+    final province = ref.watch(
+      profileSetupProvider.select((s) => s.address?.province ?? ''),
+    );
     final isDisabled = ref.watch(isLoadingProvider('submit-profile'));
     final provincesAsync = ref.watch(provincesProvider);
 
@@ -48,7 +51,7 @@ class _ProvinceFieldState extends ConsumerState<ProvinceField> {
                     );
                     ref
                         .read(profileSetupProvider.notifier)
-                        .updateLocation(province: selectedProvince['name']);
+                        .updateAddress(province: selectedProvince['name']);
                   },
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -62,13 +65,13 @@ class _ProvinceFieldState extends ConsumerState<ProvinceField> {
             enabled: false,
           ),
           error: (error, stack) => TextFormField(
-            initialValue: state.province,
+            initialValue: province,
             decoration: const InputDecoration(hintText: 'สงขลา'),
             onChanged: isDisabled
                 ? null
                 : (value) => ref
                       .read(profileSetupProvider.notifier)
-                      .updateLocation(province: value),
+                      .updateAddress(province: value),
             enabled: !isDisabled,
           ),
         ),

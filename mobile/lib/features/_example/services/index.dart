@@ -1,2 +1,2 @@
 // Services exports
-export 'example_service.dart';
+export 'example.service.dart';

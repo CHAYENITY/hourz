@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/profile_setup_provider.dart';
-import '../../../../shared/providers/index.dart';
+import '../../../../shared/index.dart';
 
 class PhoneNumberField extends ConsumerWidget {
   const PhoneNumberField({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(profileSetupProvider);
+    // ✅ Use .select() for better performance
+    final phoneNumber = ref.watch(
+      profileSetupProvider.select((s) => s.phoneNumber),
+    );
     final isDisabled = ref.watch(isLoadingProvider('submit-profile'));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('เบอร์โทรศัพท์', style: Theme.of(context).textTheme.bodySmall),
         const SizedBox(height: 8),
         TextFormField(
-          initialValue: state.phoneNumber,
+          initialValue: phoneNumber,
           decoration: const InputDecoration(hintText: '0XX-XXX-XXXX'),
           keyboardType: TextInputType.phone,
           onChanged: isDisabled

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../models/profile_setup_model.dart';
 import 'citizen_id_upload_widget.dart';
 import 'privacy_warning_widget.dart';

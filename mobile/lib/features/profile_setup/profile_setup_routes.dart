@@ -11,7 +11,10 @@ final profileSetupRoutes = [
   GoRoute(
     path: AppRoutePath.profileSetup,
     name: AppRouteName.profileSetup,
-    builder: (context, state) => const ProfileSetupScreen(),
+    builder: (context, state) {
+      final registrationData = state.extra as Map<String, String>?;
+      return ProfileSetupScreen(registrationData: registrationData);
+    },
   ),
   GoRoute(
     path: AppRoutePath.profileSetupStep1,

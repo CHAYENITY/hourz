@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hourz/features/auth/providers/auth_provider.dart';
+import 'package:hourz/features/auth/providers/auth.provider.dart';
 import 'package:hourz/shared/constants/assets.dart';
 import 'package:hourz/shared/constants/app_routes.dart';
 
@@ -54,8 +54,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       if (mounted) {
         if (route == 'dashboard') {
           context.go(AppRoutePath.dashboard);
-        } else if (route == 'profileSetup') {
-          context.go(AppRoutePath.profileSetup);
         } else {
           context.go(AppRoutePath.login);
         }

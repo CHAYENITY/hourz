@@ -1,12 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+
 import '../../models/profile_setup_model.dart';
 import 'first_name_field.dart';
 import 'last_name_field.dart';
-import 'introduction_field.dart';
+import 'bio_field.dart';
 import 'phone_number_field.dart';
-import 'social_contact_field.dart';
+import 'additional_contact_field.dart';
 
 class ProfileSetupStep1Form extends StatelessWidget {
   final ProfileSetupModel state;
@@ -68,11 +68,11 @@ class ProfileSetupStep1Form extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 28),
-        const IntroductionField(),
-        const SizedBox(height: 28),
         const PhoneNumberField(),
         const SizedBox(height: 28),
-        const SocialContactField(),
+        const BioField(),
+        const SizedBox(height: 28),
+        const AdditionalContactField(),
       ],
     );
   }

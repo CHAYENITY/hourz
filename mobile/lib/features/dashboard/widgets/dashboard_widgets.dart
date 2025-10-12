@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hourz/shared/providers/index.dart';
+import 'package:hourz/shared/index.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../models/index.dart';
 

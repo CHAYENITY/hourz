@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:hourz/features/auth/models/auth.dart';
-import 'package:hourz/shared/constants/api_endpoints.dart';
-import 'package:hourz/shared/providers/token_provider.dart';
+import 'package:hourz/features/auth/models/auth.model.dart';
+import 'package:hourz/shared/constants/api_endpoint.dart';
+import 'package:hourz/shared/providers/token.provider.dart';
 
 /// Auth Interceptor for automatic token refresh and authorization
 class AuthInterceptor extends QueuedInterceptor {
@@ -157,6 +157,7 @@ class AuthInterceptor extends QueuedInterceptor {
       ApiEndpoints.login,
       ApiEndpoints.register,
       ApiEndpoints.refreshToken,
+      ApiEndpoints.checkIdentifier,
     ];
     return skipPaths.any((skipPath) => path.contains(skipPath as Pattern));
   }

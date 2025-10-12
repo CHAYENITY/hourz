@@ -1,10 +1,10 @@
 // Auth Feature Index
 // Central export point สำหรับ authentication feature
 
-export 'models/auth.dart';
-export 'providers/auth_provider.dart';
-export 'services/auth_service.dart';
-export 'screens/login_screen.dart';
-export 'screens/register_screen.dart';
-export 'widgets/auth_widgets.dart';
-export 'auth_routes.dart';
+export 'models/auth.model.dart';
+export 'providers/auth.provider.dart';
+export 'services/auth.service.dart';
+export 'screens/login.screen.dart';
+export 'screens/register.screen.dart';
+export 'widgets/auth.widget.dart';
+export 'auth.route.dart';

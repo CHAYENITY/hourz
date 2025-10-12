@@ -5,7 +5,7 @@
 export 'models/index.dart';
 
 // 🌐 Services - API Services
-export 'services/example_service.dart';
+export 'services/example.service.dart';
 
 // 🎯 Providers - State Management
 export 'providers/index.dart';

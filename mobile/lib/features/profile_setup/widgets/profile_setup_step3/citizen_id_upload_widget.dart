@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'dart:io';
-import 'package:hourz/shared/providers/index.dart';
+
+import 'package:hourz/shared/index.dart';
+
 import '../../providers/profile_setup_provider.dart';
 
 class CitizenIdUploadWidget extends ConsumerStatefulWidget {

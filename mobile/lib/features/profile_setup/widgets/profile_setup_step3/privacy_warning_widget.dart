@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hourz/shared/providers/index.dart';
+import 'package:hourz/shared/index.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class PrivacyWarningWidget extends StatelessWidget {

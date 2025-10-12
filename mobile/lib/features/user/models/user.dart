@@ -31,7 +31,6 @@ class User with _$User {
       bio: json['bio'] as String?,
       phoneNumber: json['phone_number'] as String?,
       additionalContact: json['additional_contact'] as String?,
-      isProfileSetup: json['is_profile_setup'] as bool? ?? false,
       profileImageUrl: json['profile_image_url'] as String?,
       isVerified: json['is_verified'] as bool? ?? false,
       reputationScore: (json['reputation_score'] as num?)?.toDouble() ?? 5.0,

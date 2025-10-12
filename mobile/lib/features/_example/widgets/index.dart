@@ -1,2 +1,5 @@
-// Widgets exports
-export 'example_widgets.dart';
+// Widgets exports - Shared widgets for example feature
+export 'example.widget.dart';
+
+// Widget groups
+export 'example/index.dart';

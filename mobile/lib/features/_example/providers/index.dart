@@ -1,2 +1,2 @@
 // Providers exports
-export 'example_providers.dart';
+export 'example.provider.dart';

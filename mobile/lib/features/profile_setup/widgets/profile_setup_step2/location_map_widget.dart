@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:location/location.dart';
+
+import 'package:hourz/shared/index.dart';
+
 import '../../providers/profile_setup_provider.dart';
-import '../../../../shared/providers/index.dart';
 
 class LocationMapWidget extends ConsumerWidget {
   const LocationMapWidget({super.key});

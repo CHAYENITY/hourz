@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hourz/shared/providers/index.dart';
+import 'package:hourz/shared/index.dart';
 
 class AppTypography {
   static const String fontFamily = 'IBM_Plex_Sans_Thai';

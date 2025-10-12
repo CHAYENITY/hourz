@@ -3,13 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // * GLOBAL PROVIDERS
-import 'package:hourz/shared/providers/index.dart';
-
-// * ROUTER
-import 'package:hourz/shared/routing/app_router.dart';
-
-// * SCREENS
-import 'package:hourz/shared/screens/error_screen.dart';
+import 'package:hourz/shared/index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
