@@ -79,6 +79,8 @@ class AuthTextField extends ConsumerWidget {
             hintText: hintText,
             suffixIcon: suffixIcon,
             errorText: errorText,
+            // helperText: '',
+            // helperStyle: const TextStyle(height: 0),
           ),
         ),
       ],

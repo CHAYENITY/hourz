@@ -26,14 +26,7 @@ class RegisterButton extends ConsumerWidget {
                   .read(registerFormProvider.notifier)
                   .submit();
               if (success && context.mounted) {
-                final registrationData = ref
-                    .read(registerFormProvider.notifier)
-                    .getRegistrationData();
-
-                context.push(
-                  AppRoutePath.profileSetup,
-                  extra: registrationData,
-                );
+                context.push(AppRoutePath.profileSetupStep1);
               }
             }
           : null,

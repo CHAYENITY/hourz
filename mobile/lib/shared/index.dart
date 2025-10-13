@@ -9,11 +9,11 @@ export 'constants/assets.dart';
 
 // * Models
 export 'models/token.model.dart';
+export 'models/api.model.dart';
 
 // * Providers
 export 'providers/theme.provider.dart';
 export 'providers/loading.provider.dart';
-export 'providers/error.provider.dart';
 export 'providers/token.provider.dart';
 
 // * Routing

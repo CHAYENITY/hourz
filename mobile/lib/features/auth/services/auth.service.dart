@@ -1,5 +1,3 @@
-import 'package:hourz/shared/models/api.model.dart';
-
 import 'package:hourz/shared/index.dart';
 
 import '../models/auth.model.dart';

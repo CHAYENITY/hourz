@@ -21,9 +21,9 @@ class GigsListNotifier extends StateNotifier<List<Gig>> {
       final gigs = await service.getGigs();
       state = gigs;
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('ไม่สามารถโหลดข้อมูลงานได้: $e', context: 'loadGigs');
+    //   _ref
+    //       .read(errorProvider.notifier)
+    //       .handleError('ไม่สามารถโหลดข้อมูลงานได้: $e', context: 'loadGigs');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('load-gigs');
     }
@@ -46,12 +46,12 @@ class CategoriesListNotifier extends StateNotifier<List<Category>> {
       final categories = await service.getCategories();
       state = categories;
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError(
-            'ไม่สามารถโหลดหมวดหมู่ได้: $e',
-            context: 'loadCategories',
-          );
+      // _ref
+      //     .read(errorProvider.notifier)
+      //     .handleError(
+      //       'ไม่สามารถโหลดหมวดหมู่ได้: $e',
+      //       context: 'loadCategories',
+      //     );
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('load-categories');
     }

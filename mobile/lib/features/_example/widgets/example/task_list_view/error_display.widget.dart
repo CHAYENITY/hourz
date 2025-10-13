@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hourz/shared/index.dart';
+// import 'package:hourz/shared/index.dart';
 
 /// ⚠️ Error Display Widget (rebuilds only when error changes)
 class ErrorDisplay extends ConsumerWidget {
@@ -8,9 +8,9 @@ class ErrorDisplay extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentError = ref.watch(errorProvider);
+    // final currentError = ref.watch(errorProvider);
 
-    if (currentError == null) return const SizedBox.shrink();
+    // if (currentError == null) return const SizedBox.shrink();
 
     return Container(
       width: double.infinity,
@@ -36,10 +36,10 @@ class ErrorDisplay extends ConsumerWidget {
                     color: Colors.red.shade800,
                   ),
                 ),
-                Text(
-                  currentError.message,
-                  style: TextStyle(color: Colors.red.shade700),
-                ),
+                // Text(
+                //   currentError.message,
+                //   style: TextStyle(color: Colors.red.shade700),
+                // ),
               ],
             ),
           ),
@@ -47,7 +47,7 @@ class ErrorDisplay extends ConsumerWidget {
             icon: const Icon(Icons.close),
             color: Colors.red.shade600,
             onPressed: () {
-              ref.read(errorProvider.notifier).clearError();
+              // ref.read(errorProvider.notifier).clearError();
             },
           ),
         ],

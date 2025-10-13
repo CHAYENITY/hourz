@@ -89,9 +89,9 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       final tasks = await taskService.getTasks();
       state = tasks;
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('Failed to load tasks: $e', context: 'loadTasks');
+      // _ref
+      //     .read(errorProvider.notifier)
+      //     .handleError('Failed to load tasks: $e', context: 'loadTasks');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('load-tasks');
     }
@@ -116,9 +116,9 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       final createdTask = await taskService.createTask(newTask);
       state = [...state, createdTask];
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('Failed to create task: $e', context: 'createTask');
+      //   _ref
+      //       .read(errorProvider.notifier)
+      //       .handleError('Failed to create task: $e', context: 'createTask');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('create-task');
     }
@@ -131,9 +131,9 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       final updated = await taskService.updateTask(updatedTask);
       state = state.map((t) => t.id == updatedTask.id ? updated : t).toList();
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('Failed to update task: $e', context: 'updateTask');
+      //   _ref
+      //       .read(errorProvider.notifier)
+      //       .handleError('Failed to update task: $e', context: 'updateTask');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('update-task');
     }
@@ -146,9 +146,9 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       await taskService.deleteTask(taskId);
       state = state.where((task) => task.id != taskId).toList();
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('Failed to delete task: $e', context: 'deleteTask');
+      // _ref
+      //     .read(errorProvider.notifier)
+      //     .handleError('Failed to delete task: $e', context: 'deleteTask');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('delete-task');
     }
@@ -161,9 +161,9 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
       final updatedTask = await taskService.toggleTaskCompletion(taskId);
       state = state.map((t) => t.id == taskId ? updatedTask : t).toList();
     } catch (e) {
-      _ref
-          .read(errorProvider.notifier)
-          .handleError('Failed to toggle task: $e', context: 'toggleTask');
+      // _ref
+      //     .read(errorProvider.notifier)
+      //     .handleError('Failed to toggle task: $e', context: 'toggleTask');
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('toggle-task');
     }

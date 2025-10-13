@@ -1,3 +1,3 @@
-export 'profile_setup_step3_form.dart';
-export 'citizen_id_upload_widget.dart';
-export 'privacy_warning_widget.dart';
+export 'step3_form/step3_form.widget.dart';
+export 'navigation_button.widget.dart';
+export 'header.widget.dart';

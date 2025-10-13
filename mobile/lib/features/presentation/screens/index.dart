@@ -1,3 +1,3 @@
 // Screens exports
-export 'splash_screen.dart';
-export 'onboarding_screen.dart';
+export 'splash.screen.dart';
+export 'onboarding.screen.dart';

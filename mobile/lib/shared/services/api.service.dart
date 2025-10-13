@@ -2,11 +2,35 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:hourz/shared/models/api.model.dart';
 import 'package:hourz/shared/index.dart';
 
 /// Simple API Service for basic CRUD operations
 class ApiService {
+  /// Handle DioException and convert to ErrorResponse
+  ErrorResponse _handleError(DioException error) {
+    try {
+      final responseData = error.response?.data;
+      if (responseData is Map<String, dynamic>) {
+        return ErrorResponse.fromJson(responseData);
+      } else if (responseData is String) {
+        return ErrorResponse(
+          statusCode: error.response?.statusCode,
+          message: responseData,
+        );
+      } else {
+        return ErrorResponse(
+          statusCode: error.response?.statusCode,
+          message: error.message ?? 'Unknown error',
+        );
+      }
+    } catch (e) {
+      return ErrorResponse(
+        statusCode: error.response?.statusCode,
+        message: error.message ?? 'Unknown error',
+      );
+    }
+  }
+
   late final Dio _dio;
   final Logger _logger = Logger();
   final Ref? _ref; // For auth interceptor
@@ -54,25 +78,6 @@ class ApiService {
       }
     } catch (e) {
       rethrow;
-    }
-  }
-
-  /// Handle Dio errors and convert to ApiException
-  ApiException _handleError(DioException error) {
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return const ApiException(message: 'Connection timeout');
-      case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode;
-        final message =
-            error.response?.data?['message'] ?? 'Server error occurred';
-        return ApiException(message: message, statusCode: statusCode);
-      case DioExceptionType.cancel:
-        return const ApiException(message: 'Request cancelled');
-      default:
-        return const ApiException(message: 'Network error occurred');
     }
   }
 

@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:hourz/features/auth/models/auth.model.dart';
 import 'package:hourz/features/auth/services/auth.service.dart';
 import 'package:hourz/shared/index.dart';
-import 'package:hourz/shared/models/api.model.dart';
-import 'package:logger/logger.dart';
+
+part 'auth.provider.freezed.dart';
 
 // ============================================================================
 // Auth Service Provider
@@ -18,29 +20,15 @@ final authServiceProvider = Provider<AuthService>((ref) {
 // Login Form State
 // ============================================================================
 
-@immutable
-class LoginFormState {
-  final String email;
-  final String password;
-  final bool obscurePassword;
+@freezed
+class LoginFormState with _$LoginFormState {
+  const factory LoginFormState({
+    @Default('') String email,
+    @Default('') String password,
+    @Default(true) bool obscurePassword,
+  }) = _LoginFormState;
 
-  const LoginFormState({
-    this.email = '',
-    this.password = '',
-    this.obscurePassword = true,
-  });
-
-  LoginFormState copyWith({
-    String? email,
-    String? password,
-    bool? obscurePassword,
-  }) {
-    return LoginFormState(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      obscurePassword: obscurePassword ?? this.obscurePassword,
-    );
-  }
+  const LoginFormState._();
 
   bool get isValid =>
       email.isNotEmpty &&
@@ -100,12 +88,6 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
       return true;
     } catch (e) {
       _logger.e('❌ Login failed: $e');
-      _ref
-          .read(errorProvider.notifier)
-          .handleError(
-            'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน',
-            context: 'login',
-          );
       rethrow;
     } finally {
       _ref.read(loadingProvider.notifier).stopLoading('auth-login');
@@ -121,58 +103,21 @@ class LoginFormNotifier extends StateNotifier<LoginFormState> {
 // Register Form State
 // ============================================================================
 
-@immutable
-class RegisterFormState {
-  final String email;
-  final String password;
-  final String confirmPassword;
-  final bool obscurePassword;
-  final bool obscureConfirmPassword;
-  final bool agreeToTerms;
-  final String? emailError;
-  final String? passwordError;
-  final String? confirmPasswordError;
+@freezed
+class RegisterFormState with _$RegisterFormState {
+  const factory RegisterFormState({
+    @Default('') String email,
+    @Default('') String password,
+    @Default('') String confirmPassword,
+    @Default(true) bool obscurePassword,
+    @Default(true) bool obscureConfirmPassword,
+    @Default(false) bool agreeToTerms,
+    String? emailError,
+    String? passwordError,
+    String? confirmPasswordError,
+  }) = _RegisterFormState;
 
-  const RegisterFormState({
-    this.email = '',
-    this.password = '',
-    this.confirmPassword = '',
-    this.obscurePassword = true,
-    this.obscureConfirmPassword = true,
-    this.agreeToTerms = false,
-    this.emailError,
-    this.passwordError,
-    this.confirmPasswordError,
-  });
-
-  RegisterFormState copyWith({
-    String? email,
-    String? password,
-    String? confirmPassword,
-    bool? obscurePassword,
-    bool? obscureConfirmPassword,
-    bool? agreeToTerms,
-    String? emailError = 'KEEP_CURRENT',
-    String? passwordError = 'KEEP_CURRENT',
-    String? confirmPasswordError = 'KEEP_CURRENT',
-  }) {
-    return RegisterFormState(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      obscurePassword: obscurePassword ?? this.obscurePassword,
-      obscureConfirmPassword:
-          obscureConfirmPassword ?? this.obscureConfirmPassword,
-      agreeToTerms: agreeToTerms ?? this.agreeToTerms,
-      emailError: emailError == 'KEEP_CURRENT' ? this.emailError : emailError,
-      passwordError: passwordError == 'KEEP_CURRENT'
-          ? this.passwordError
-          : passwordError,
-      confirmPasswordError: confirmPasswordError == 'KEEP_CURRENT'
-          ? this.confirmPasswordError
-          : confirmPasswordError,
-    );
-  }
+  const RegisterFormState._();
 
   bool get isValid =>
       email.isNotEmpty &&
@@ -257,6 +202,7 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     final trimmedEmail = state.email.trim().toLowerCase();
     if (trimmedEmail.isNotEmpty && trimmedEmail.contains('@')) {
       try {
+        _ref.read(loadingProvider.notifier).startLoading('auth-register');
         final authService = _ref.read(authServiceProvider);
         final request = CheckIdentifierRequest(email: trimmedEmail);
         final result = await authService.checkIdentifier(request);
@@ -268,14 +214,15 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
           setEmailError(null);
         }
       } catch (e) {
-        // Check for error code 400 (bad request)
-        if (e is ApiException && e.statusCode == 400) {
+        if (e is ErrorResponse && e.statusCode == 400) {
           setEmailError('รูปแบบอีเมลไม่ถูกต้อง');
         } else {
           setEmailError('ไม่สามารถตรวจสอบอีเมลได้');
         }
         _logger.e('❌ Check identifier failed: $e');
         return false;
+      } finally {
+        _ref.read(loadingProvider.notifier).stopLoading('auth-register');
       }
     }
     if (!state.isValid) {
@@ -284,11 +231,6 @@ class RegisterFormNotifier extends StateNotifier<RegisterFormState> {
     }
     _logger.d('✅ Register form is valid');
     return true;
-  }
-
-  /// Get registration data to pass to profile setup
-  Map<String, String> getRegistrationData() {
-    return {'email': state.email, 'password': state.password};
   }
 }
 
@@ -306,32 +248,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<void>> {
 
   AuthNotifier(this._ref) : super(const AsyncValue.data(null));
 
-  Future<void> loginWithGoogle() async {
-    try {
-      _ref.read(loadingProvider.notifier).startLoading('auth-google');
-      state = const AsyncValue.loading();
-
-      // TODO: Implement Google Sign In
-      _logger.w('⚠️ Google Sign In not implemented yet');
-
-      await Future.delayed(const Duration(seconds: 1)); // Simulate API call
-
-      _ref
-          .read(errorProvider.notifier)
-          .handleError(
-            'Google Sign In ยังไม่พร้อมใช้งาน',
-            context: 'google-signin',
-          );
-
-      state = const AsyncValue.data(null);
-    } catch (e) {
-      _logger.e('❌ Google Sign In failed: $e');
-      state = AsyncValue.error(e, StackTrace.current);
-      rethrow;
-    } finally {
-      _ref.read(loadingProvider.notifier).stopLoading('auth-google');
-    }
-  }
+  Future<void> loginWithGoogle() async {}
 
   Future<void> logout() async {
     try {

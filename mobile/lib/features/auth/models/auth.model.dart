@@ -40,11 +40,11 @@ class AddressRequest with _$AddressRequest {
 class RegisterRequest with _$RegisterRequest {
   const factory RegisterRequest({
     required String email,
-    required String phoneNumber,
     required String password,
     required String confirmPassword,
     required String firstName,
     required String lastName,
+    required String phoneNumber,
     String? bio,
     String? additionalContact,
     required AddressRequest address,
@@ -57,10 +57,10 @@ class RegisterRequest with _$RegisterRequest {
   @override
   Map<String, dynamic> toJson() => {
     'email': email,
-    'phone_number': phoneNumber,
     'password': password,
     'first_name': firstName,
     'last_name': lastName,
+    'phone_number': phoneNumber,
     if (bio != null) 'bio': bio,
     if (additionalContact != null) 'additional_contact': additionalContact,
     'address': address.toJson(),

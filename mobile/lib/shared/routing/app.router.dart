@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hourz/features/dashboard/dashboard_routes.dart';
 import 'package:hourz/features/_example/example.route.dart';
-import 'package:hourz/features/presentation/presentation_routes.dart';
+import 'package:hourz/features/presentation/presentation.route.dart';
 import 'package:hourz/features/auth/auth.route.dart';
-import 'package:hourz/features/profile_setup/profile_setup_routes.dart';
+import 'package:hourz/features/profile_setup/profile_setup.route.dart';
 
 import '../constants/app_routes.dart';
 import '../screens/error.screen.dart';
