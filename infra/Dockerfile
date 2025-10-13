@@ -35,10 +35,6 @@ RUN cd /tmp && \
     chown -R jenkins:jenkins ${SONAR_SCANNER_HOME}
 ENV PATH=${SONAR_SCANNER_HOME}/bin:${PATH}
 
-# Create the docker group manually and add jenkins user to it
-RUN groupadd -f docker && \
-    usermod -aG docker jenkins
-
 USER jenkins
 
 # Verify installations
