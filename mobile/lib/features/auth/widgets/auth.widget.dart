@@ -149,7 +149,7 @@ class GoogleSignInButton extends ConsumerWidget {
       width: double.infinity,
       child: OutlinedButton(
         onPressed: (isDisabled || isLoading) ? null : onPressed,
-        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(6)),
+        style: OutlinedButton.styleFrom(padding: const EdgeInsets.all(7)),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -157,7 +157,7 @@ class GoogleSignInButton extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               child: isLoading
                   ? const SizedBox(
-                      height: 20,
+                      height: 32,
                       width: 32,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
