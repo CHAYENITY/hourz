@@ -3,8 +3,11 @@ from fastapi import FastAPI, status
 from fastapi.routing import APIRoute
 from fastapi.responses import JSONResponse
 from fastapi.openapi.utils import get_openapi
+from fastapi.exceptions import RequestValidationError
 from starlette.middleware.cors import CORSMiddleware
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from contextlib import asynccontextmanager
 
 from app.api import api_router
@@ -12,6 +15,14 @@ from app.configs.app_config import app_config
 from app.database.session import engine
 from app.middleware.request_id import RequestIdMiddleware
 from app.middleware.logging_middleware import LoggingMiddleware
+from app.middleware.exception_handler import (
+    app_exception_handler,
+    http_exception_handler,
+    validation_exception_handler,
+    sqlalchemy_exception_handler,
+    generic_exception_handler,
+)
+from app.exceptions import AppException
 from app.utils.logger import setup_logging, get_logger
 
 # Setup structured logging
@@ -54,6 +65,13 @@ app = FastAPI(
     redoc_url=None,
     openapi_url="/openapi.json" if app_config.ENVIRONMENT != "production" else None,
 )
+
+# Register exception handlers (order matters - most specific first)
+app.add_exception_handler(AppException, app_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
+app.add_exception_handler(Exception, generic_exception_handler)
 
 # Add middleware (order matters - first added is executed last)
 # Request ID middleware - first to set context
