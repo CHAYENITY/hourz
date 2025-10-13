@@ -22,7 +22,7 @@ RUN apt-get update && \
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 
 # Install Poetry
-RUN python3 -m pip install --no-cache-dir --break-system-packages poetry
+RUN python3 -m pip install --no-cache-dir --break-system-packages poetry==1.8.3
 
 # Install SonarScanner CLI
 ENV SONAR_SCANNER_VERSION=5.0.1.3006
